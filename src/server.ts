@@ -6,7 +6,9 @@ import routes from './routes';
 dotenv.config();
 const app = express();
 
-Mongoose.connect(process.env.CONNECTIONSTRING as string)
+Mongoose.connect(process.env.CONNECTIONSTRING as string, {
+  dbName: 'web-api',
+})
   .then(() => {
     app.emit('ready');
   })

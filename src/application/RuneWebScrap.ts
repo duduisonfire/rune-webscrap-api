@@ -58,7 +58,7 @@ export default class RuneWebScrap {
     const majorRunesList = selector('.perk-active').contents();
     const minorsRunesList = selector('.shard-active').contents();
 
-    if (!treeNameList.data() || !majorRunesList.data() || !minorsRunesList.data()) {
+    if (!treeNameList[0] || !treeNameList[0] || !treeNameList[0]) {
       throw new Error(
         "You didn't pass the correct parameters. Please choose a champion and a valid lane.",
       );

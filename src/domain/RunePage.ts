@@ -6,7 +6,7 @@ export default class RunePage implements IRunePage {
   public subStyleId: number;
   public selectedPerkIds: number[] = [];
 
-  constructor(runes: string[], public championName: string, public role: string) {
+  constructor(runes: string[]) {
     this.primaryStyleId = runesParseTable[runes[0]];
     this.subStyleId = runesParseTable[runes[1]];
 
