@@ -16,7 +16,11 @@ export default class RuneWebScrap {
 
   private async scrapRuneWebPage() {
     try {
-      const browser = await puppeteer.launch({ channel: 'chrome' });
+      const browser = await puppeteer.launch({
+        headless: 'new',
+        channel: 'chrome',
+        args: ['--no-sandbox'],
+      });
       const browserPage = await browser.newPage();
 
       await browserPage.setRequestInterception(true);
@@ -41,7 +45,8 @@ export default class RuneWebScrap {
 
       return runeWebPageContent;
     } catch (e) {
-      return new Error('u.gg is down. Sorry for the inconvenience');
+      // return new Error('u.gg is down. Sorry for the inconvenience');
+      return e;
     }
   }
 
