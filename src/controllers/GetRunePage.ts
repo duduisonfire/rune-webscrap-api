@@ -19,9 +19,7 @@ class GetRunePages {
         runesId,
       });
     } catch (e) {
-      return res.status(400).json({
-        error: `You have not entered the correct parameters in your request, please choose a valid champion and lane. ${e}`,
-      });
+      return res.status(400).json(`${e}`);
     }
   }
 }
