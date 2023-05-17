@@ -34,7 +34,7 @@ export class UggDB {
   async updateChampionCache(response: RuneResponse) {
     const championCache = await uggModel.findOneAndUpdate(
       { champion: this.champion, lane: this.lane },
-      response,
+      { ...response, createdAt: Date.now() },
     );
 
     return championCache;
