@@ -29,7 +29,13 @@ export class UggDB {
   }
 
   async championCacheExists(): Promise<false | mongoose.DocumentSetOptions> {
-    const championCache = await uggModel.findOne({ champion: this.champion, lane: this.lane });
+    const championCache = await uggModel.findOne({
+      champion: this.champion.replace(
+        this.champion.charAt(0),
+        this.champion.charAt(0).toUpperCase(),
+      ),
+      lane: this.lane,
+    });
 
     if (championCache) return championCache;
 
