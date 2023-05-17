@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npx jest --watch",
     "watch": "tsc -w",
-    "build": "tsc"
+    "build": "tsc && cp package-lock.json package.json ./dist"
   },
   "keywords": [],
   "author": "",
