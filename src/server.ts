@@ -2,6 +2,8 @@ import dotenv from 'dotenv';
 import express from 'express';
 import Mongoose from 'mongoose';
 import routes from './routes';
+import cron from 'node-cron';
+import CacheManager from './application/CacheManager';
 
 dotenv.config();
 const app = express();
@@ -14,6 +16,8 @@ Mongoose.connect(process.env.CONNECTIONSTRING as string, {
   })
   .catch((e) => console.log(e));
 
+const cacheManager = new CacheManager();
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(routes);
@@ -24,3 +28,6 @@ app.on('ready', () => {
     console.log(`Servidor executando na porta ${process.env.PORT}`);
   });
 });
+
+cacheManager.initialSyncCache();
+cron.schedule('0 2 * * *', cacheManager.syncCache);

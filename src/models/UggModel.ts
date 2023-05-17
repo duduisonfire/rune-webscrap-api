@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import RuneResponse from '../controllers/classes/RuneResponse';
 
 const uggSchema = new mongoose.Schema({
-  createdAt: { type: Date, default: Date.now, expires: '1440m' },
+  createdAt: { type: Date, default: Date.now, expires: 60 * 60 * 24 },
   champion: { type: String, required: true },
   lane: { type: String, required: true },
   runes: { type: Array, required: true },
@@ -19,11 +19,26 @@ export class UggDB {
     return cacheExists;
   }
 
+  async updateChampionCache(response: RuneResponse) {
+    const championCache = await uggModel.findOneAndUpdate(
+      { champion: this.champion, lane: this.lane },
+      response,
+    );
+
+    return championCache;
+  }
+
   async championCacheExists(): Promise<false | mongoose.DocumentSetOptions> {
     const championCache = await uggModel.findOne({ champion: this.champion, lane: this.lane });
 
     if (championCache) return championCache;
 
     return false;
+  }
+
+  async championRunesCacheLength() {
+    const length = await uggModel.countDocuments();
+
+    return length;
   }
 }
