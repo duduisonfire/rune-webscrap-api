@@ -15,6 +15,18 @@ export class UggDB {
   constructor(private champion: string, private lane: string) {}
 
   async createChampionCache(response: RuneResponse): Promise<mongoose.DocumentSetOptions> {
+    const championCache = await uggModel.findOne({
+      champion: this.champion.replace(
+        response.champion.charAt(0),
+        response.champion.charAt(0).toUpperCase(),
+      ),
+      lane: this.lane,
+    });
+
+    if (championCache) {
+      return championCache;
+    }
+
     const cacheExists = await uggModel.create(response);
     return cacheExists;
   }
