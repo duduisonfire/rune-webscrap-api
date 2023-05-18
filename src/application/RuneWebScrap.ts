@@ -45,7 +45,6 @@ export default class RuneWebScrap {
 
       return runeWebPageContent;
     } catch (e) {
-      // return new Error('u.gg is down. Sorry for the inconvenience');
       return e;
     }
   }
@@ -63,7 +62,7 @@ export default class RuneWebScrap {
     const majorRunesList = selector('.perk-active').contents();
     const minorsRunesList = selector('.shard-active').contents();
 
-    if (!treeNameList[0] || !treeNameList[0] || !treeNameList[0]) {
+    if (!treeNameList || !treeNameList || !treeNameList) {
       throw new Error(
         "You didn't pass the correct parameters. Please choose a champion and a valid lane.",
       );

@@ -6,12 +6,14 @@
   "scripts": {
     "test": "npx jest --watch",
     "watch": "tsc -w",
-    "build": "tsc && cp package-lock.json package.json ./dist"
+    "build": "tsc && cp package-lock.json package.json ./dist",
+    "start": "ts-node '/home/igor/Documents/Projetos/TypeScript/rune-webscrap-api/src/server.ts'"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@jest/globals": "^29.5.0",
     "@types/axios": "^0.14.0",
     "@types/cheerio": "^0.22.31",
     "@types/dotenv": "^8.2.0",
