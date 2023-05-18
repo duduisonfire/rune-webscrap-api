@@ -10,7 +10,7 @@ export default class RuneWebScrap {
     if (url) {
       this.url = url;
     } else {
-      this.url = `https://u.gg/lol/champions/${this.champion}/build/${this.lane}`;
+      this.url = `https://u.gg/lol/champions/${this.champion}/build/${this.lane}?rank=overall`;
     }
   }
 
@@ -62,7 +62,11 @@ export default class RuneWebScrap {
     const majorRunesList = selector('.perk-active').contents();
     const minorsRunesList = selector('.shard-active').contents();
 
-    if (!treeNameList || !treeNameList || !treeNameList) {
+    const treeNameListData = treeNameList[0];
+    const majorRunesListData = majorRunesList[0] as unknown as IWebScrapRunes;
+    const minorsRunesListData = minorsRunesList[0] as unknown as IWebScrapRunes;
+
+    if (!treeNameListData || !majorRunesListData.attribs.alt || !minorsRunesListData.attribs.alt) {
       throw new Error(
         "You didn't pass the correct parameters. Please choose a champion and a valid lane.",
       );
@@ -90,6 +94,7 @@ export default class RuneWebScrap {
         const rune = minorsRunesList[index] as unknown as IWebScrapRunes;
         let runeName = rune.attribs.alt;
 
+        runeName = runeName.replace('Scaling Bonus ', '');
         runeName = runeName.replace('The ', '');
         runeName = runeName.replace(' Shard', '');
 
