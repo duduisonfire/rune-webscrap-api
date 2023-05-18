@@ -4,7 +4,7 @@ import RuneResponse from '../controllers/classes/RuneResponse';
 const uggSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now, expires: 60 * 60 * 30 },
   champion: { type: String, required: true },
-  lane: { type: String, required: true, unique: true },
+  lane: { type: String, required: true },
   runes: { type: Array, required: true },
   runesId: { type: Object, required: true },
 });
