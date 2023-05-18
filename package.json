@@ -7,7 +7,7 @@
     "test": "npx jest --watch",
     "watch": "tsc -w",
     "build": "tsc && cp package-lock.json package.json ./dist",
-    "start": "ts-node '/home/igor/Documents/Projetos/TypeScript/rune-webscrap-api/src/server.ts'"
+    "start::dev": "ts-node '/home/igor/Documents/Projetos/TypeScript/rune-webscrap-api/src/server.ts'"
   },
   "keywords": [],
   "author": "",
