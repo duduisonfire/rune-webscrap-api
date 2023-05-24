@@ -20,13 +20,20 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(routes);
 
-app.on('ready', () => {
+app.on('ready', async () => {
   const cacheManager = new CacheManager();
-  cacheManager.initialSyncCache();
+  const hasCache = await cacheManager.verifyCache();
+  console.log(hasCache);
+
+  if (!hasCache) {
+    cacheManager.initialSyncCache();
+  }
+
   cron.schedule('0 0 * * *', () => {
     console.log('Doing daily sync of runes cache.');
     cacheManager.syncCache();
   });
+
   app.listen(process.env.PORT, () => {
     console.log(`Acessar http://localhost:${process.env.PORT}`);
     console.log(`Servidor executando na porta ${process.env.PORT}`);

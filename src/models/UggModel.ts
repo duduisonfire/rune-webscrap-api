@@ -14,49 +14,79 @@ const uggModel = mongoose.model('UggRunesCache', uggSchema);
 export class UggDB {
   constructor(private champion: string, private lane: string) {}
 
-  async createChampionCache(response: RuneResponse): Promise<mongoose.DocumentSetOptions> {
-    const championCache = await uggModel.findOne({
-      champion: this.champion.replace(
-        response.champion.charAt(0),
-        response.champion.charAt(0).toUpperCase(),
-      ),
-      lane: this.lane,
-    });
+  async createChampionCache(response: RuneResponse): Promise<mongoose.DocumentSetOptions | Error> {
+    try {
+      const championCache = await uggModel.findOne({
+        champion: this.champion.replace(
+          response.champion.charAt(0),
+          response.champion.charAt(0).toUpperCase(),
+        ),
+        lane: this.lane,
+      });
 
-    if (championCache) {
-      return championCache;
+      if (championCache) return championCache;
+
+      const cacheExists = await uggModel.create(response);
+      return cacheExists;
+    } catch (e) {
+      const error = new Error('Our database is currently experiencing instabilities.');
+
+      console.log(e);
+
+      return error;
     }
-
-    const cacheExists = await uggModel.create(response);
-    return cacheExists;
   }
 
   async updateChampionCache(response: RuneResponse) {
-    const championCache = await uggModel.findOneAndUpdate(
-      { champion: this.champion, lane: this.lane },
-      { ...response, createdAt: Date.now() },
-    );
+    try {
+      const championCache = await uggModel.findOneAndUpdate(
+        { champion: this.champion, lane: this.lane },
+        { ...response, createdAt: Date.now() },
+      );
 
-    return championCache;
+      return championCache;
+    } catch (e) {
+      const error = new Error('Our database is currently experiencing instabilities.');
+
+      console.log(e);
+
+      return error;
+    }
   }
 
-  async championCacheExists(): Promise<false | mongoose.DocumentSetOptions> {
-    const championCache = await uggModel.findOne({
-      champion: this.champion.replace(
-        this.champion.charAt(0),
-        this.champion.charAt(0).toUpperCase(),
-      ),
-      lane: this.lane,
-    });
+  async championCacheExists(): Promise<false | mongoose.DocumentSetOptions | Error> {
+    try {
+      const championCache = await uggModel.findOne({
+        champion: this.champion.replace(
+          this.champion.charAt(0),
+          this.champion.charAt(0).toUpperCase(),
+        ),
+        lane: this.lane,
+      });
 
-    if (championCache) return championCache;
+      if (championCache) return championCache;
 
-    return false;
+      return false;
+    } catch (e) {
+      const error = new Error('Our database is currently experiencing instabilities.');
+
+      console.log(e);
+
+      return error;
+    }
   }
 
-  async championRunesCacheLength() {
-    const length = await uggModel.countDocuments();
+  async championRunesCacheLength(): Promise<number | Error> {
+    try {
+      const length = await uggModel.countDocuments();
 
-    return length;
+      return length;
+    } catch (e) {
+      const error = new Error('Our database is currently experiencing instabilities.');
+
+      console.log(e);
+
+      return error;
+    }
   }
 }
